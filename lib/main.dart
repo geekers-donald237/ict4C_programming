@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: L10n.all,
-        home: Center(child: Text(AppLocalizations.of(context)!.hello_word)),
+        home: Center(child: Text(AppLocalizations.of(context)!.hello_word)), // transalte texte see online doc for intl package
       );
     });
   }
