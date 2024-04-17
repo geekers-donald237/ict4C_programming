@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 class ColorsApp{
   static const int primaryColorValue = 0xFF05101C;
 
-  static MaterialColor couleurPrimaire = MaterialColor(
+  static MaterialColor primaryColor = MaterialColor(
     primaryColorValue,
     <int, Color>{
       50: Color(0xFF05101C), // Ajoutez différentes nuances de votre couleur ici
@@ -17,6 +17,7 @@ class ColorsApp{
       900: Color(0xFF05101C),
     },
   );
-  static Color couleurSecondaire=Color(0xFFCC5E01);
-  static Color couleurNeutre=Color(0xFFFFFFFF);
+  static Color secondColor=Color(0xFFCC5E01);
+  static Color neutralColor=Color(0xFFFFFFFF);
+  static Color greyColor=Color(0xFFB3B3B3);
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ict4c/features/onboard/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:ict4c/utils/color.dart';
 import 'controller/onbaord_controller.dart';
 import 'screens/onboard_content.dart';
 import 'package:ict4c/utils/utils.dart';
+import 'package:ict4c/l10n/l10n.dart';
 import 'package:ict4c/utils/color.dart';
 //import 'package:ict4c/features/onboard/controller/onbaord_controller.dart';
 
@@ -31,7 +33,7 @@ class OnboardingScreen extends StatelessWidget{
                  ),
                 ),
              Container(
-               color:ColorsApp.couleurPrimaire,
+               color:ColorsApp.primaryColor,
                child: Row(
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: _buildPageIndicator(context, onboardingProvider.currentPageIndex),
@@ -45,26 +47,31 @@ class OnboardingScreen extends StatelessWidget{
   }
   Container onboardAffich(OnboardContent liste,int i,BuildContext context) {
     return Container(
-      color: ColorsApp.couleurPrimaire,
+      color: ColorsApp.primaryColor,
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Spacer(),
+          Container(
+            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/25,bottom: MediaQuery.of(context).size.height/5),
+            child: skipButton(context, i),
+          ),
+          //Spacer(),
           //Column(),
           Container(
               width: getHeight(300, context),
               height: getWidth(300, context),
-              child: Image.asset(liste.listesAffiche[i].imagePath,fit: BoxFit.contain,),
+              child: Image.asset(liste.displayList[i].imagePath,fit: BoxFit.contain,),
           ),
           //Spacer(flex: 1,),
           //Text(AppLocalizations.of(context)?.hello_word ?? 'Fallback Text')
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(left:getWidth(20, context),right: getWidth(20, context),),
-            child:Text(liste.listesAffiche[i].textDescrip,
+            child:Text(liste.displayList[i].textDescription,
               textAlign: TextAlign.center,
               style: TextStyle(
+                decoration: TextDecoration.none,
                 color: Colors.white,
                 fontWeight:FontWeight.bold,
                 fontStyle: FontStyle.italic,
@@ -73,21 +80,64 @@ class OnboardingScreen extends StatelessWidget{
             ),
           ),
             Spacer(),
-          Container(
-            width: getWidth(MediaQuery.of(context).size.width, context),
-            child:nextButton(i,context),
-          )
+            Container(
+              child: getStartedButton(context, i),
+            ),
+            Spacer(),
         ],
       ),
     );
   }
-  Container? nextButton(int index,BuildContext context){
-    if(index==2){
+  Container? skipButton(BuildContext context,int index){
+    if(index==0 || index==1){
       return Container(
+        width: getWidth(MediaQuery.of(context).size.width, context),
         alignment: Alignment.bottomRight,
-        child: IconButton(
-              onPressed:(){},
-              icon:Icon(Icons.arrow_forward,size: getWidth(30, context),),color: Colors.white,)
+        child: TextButton(
+          //style: ButtonStyle(backgroundColor:ColorsApp.secondColor),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext ctx) {
+                return onboardAffich(liste, 2, context);
+              }),
+            );
+          },
+          child: Text(
+            "Skip",
+            style: TextStyle(
+              decoration: TextDecoration.none,
+              color: ColorsApp.secondColor,
+              fontSize:getWidth(18, context),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
+    }
+    else return null;
+  }
+  ElevatedButton? getStartedButton(BuildContext context,int index){
+    if(index==2){
+      return ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: ColorsApp.secondColor,
+            fixedSize: Size(getWidth(MediaQuery.of(context).size.width/2, context),MediaQuery.of(context).size.height/20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(22),
+            )
+          ),
+          onPressed:(){
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext ctx) {
+                return MainScreen();
+              }),
+            );
+          } ,
+          child: Text("Get Started",
+            style: TextStyle(color: ColorsApp.neutralColor,
+              fontSize: getWidth(17, context),
+            ),
+          ),
       );
     }
     else return null;
@@ -105,7 +155,7 @@ List<Widget> _buildPageIndicator(BuildContext context, int currentIndex) {
         margin: EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: currentIndex == i ? ColorsApp.couleurSecondaire : ColorsApp.couleurNeutre,
+          color: currentIndex == i ? ColorsApp.secondColor : ColorsApp.neutralColor,
         ),
       ),
     );

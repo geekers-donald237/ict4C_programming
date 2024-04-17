@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ICT4C',
         theme: ThemeData(
-          primarySwatch:ColorsApp.couleurPrimaire,
+          primarySwatch:ColorsApp.primaryColor,
           useMaterial3: false,
         ),
         localizationsDelegates: const [
